@@ -17,7 +17,7 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
         context = this;
 
-        Webservice.DeliveryByCode(context,"code","type","deviceId",new CallBack() {
+        Webservice.GetReserves(context,"65435435","65469" ,new CallBack() {
             @Override
             public void onSuccess(Object result) {
 

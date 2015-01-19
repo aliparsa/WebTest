@@ -80,6 +80,8 @@ public class SoapHelper {
 
     }
 
+
+
     @Override
     public void deliverResult(JSONObject data) {
 
@@ -93,6 +95,72 @@ public class SoapHelper {
             callback.onError("Server Response Not Valid");
         }
     }
+        }.forceLoad();
+
+    }
+
+    public void SendRequestToServer(final SoapObject sObj, final CallBack<JSONObject> callback) {
+
+
+        new AsyncTaskLoader<JSONObject>(context) {
+
+            @Override
+            public JSONObject loadInBackground() {
+
+                try {
+
+                    SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+                    request.addSoapObject(sObj);
+
+                    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                    envelope.setOutputSoapObject(request);
+                    envelope.dotNet = true;
+
+                    HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+                    //this is the actual part that will call the webservice
+                    androidHttpTransport.call(SOAP_ACTION1, envelope);
+
+
+                    // log send and receive data
+                    LogHelper log = new LogHelper(context);
+                    log.InsertLog(new PersianCalendar().getGregorianDateTime(), envelope.bodyOut.toString(), envelope.bodyIn.toString());
+
+                    // Get the SoapResult from the envelope body.
+                    SoapObject result = (SoapObject) envelope.bodyIn;
+
+                    if (result != null) {
+                        // Extract JSON Result From Response
+                        JSONObject jsonReceivedData = new JSONObject(result.getProperty(0).toString());
+                        return (jsonReceivedData);
+
+                    } else {
+                        return null;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+            }
+
+
+
+            @Override
+            public void deliverResult(JSONObject data) {
+
+                if (data != null) {
+
+                    callback.onSuccess(data);
+                    super.deliverResult(data);
+
+                } else {
+
+                    callback.onError("Server Response Not Valid");
+                }
+            }
         }.forceLoad();
 
     }
