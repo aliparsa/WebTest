@@ -22,6 +22,216 @@ public class Webservice {
     private static final int RESULT_ERROR =101;
 
 
+    public static void GetPersonelInfo(Context context,final String cardNo, final CallBack callback) {
+
+        try {
+            SettingHelper setting = new SettingHelper(context);
+            String SERVER_ADDRESS = setting.getOption("serverAddress");
+            if (SERVER_ADDRESS==null)
+                SERVER_ADDRESS="http://192.168.0.11:6061/";
+
+            final String NAMESPACE = SERVER_ADDRESS+"/Areas/Buffet/Service/";
+            final String METHOD_NAME = "DeliveryByCode";
+            final String URL = SERVER_ADDRESS+"/areas/buffet/service/webserviceAndroid.asmx?op=DeliveryByCode";
+            final String SOAP_ACTION =SERVER_ADDRESS+ "/Areas/Buffet/Service/GetStep1";
+
+            SoapHelper soapHelper = new SoapHelper(context,NAMESPACE, METHOD_NAME, URL, SOAP_ACTION);
+
+            ArrayList<String> names = new ArrayList<String>();
+            ArrayList<String> values = new ArrayList<String>();
+
+            names.add("cardNo");
+            values.add(cardNo);
+
+
+            soapHelper.SendRequestToServer(names,values, new CallBack<JSONObject>() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+
+                        int resultCode = resultCode = result.getInt("ResultCode");
+
+                        switch (resultCode) {
+                            case RESULT_OK: {
+                                String token = result.getString("token");
+                                String name = result.getString("name");
+                                int resturantId = result.getInt("restaurantId");
+                                String resturantName = result.getString("restaurantName");
+                                String deliverPersonel = result.getString("deliverPersonel");
+                                String meal = result.getString("meal");
+                                ArrayList<Meal> meals= Meal.getArrayFromJson(meal);
+                                callback.onSuccess(new LoginInfo(token, name, resturantId, resturantName, deliverPersonel,meals));
+                                break;
+                            }
+                            case RESULT_ERROR: {
+                                callback.onError("نام و یا کلمه عبور اشتباه است");
+                                break;
+                            }
+                            default: {
+                                callback.onError("server response is not valid ");
+                                break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //-----------------------------------------------------------------------------
+    public static void GetMenuFoods(Context context,final String date, final String cardNo, final CallBack callback) {
+
+        try {
+            SettingHelper setting = new SettingHelper(context);
+            String SERVER_ADDRESS = setting.getOption("serverAddress");
+            if (SERVER_ADDRESS==null)
+                SERVER_ADDRESS="http://192.168.0.11:6061/";
+
+            final String NAMESPACE = SERVER_ADDRESS+"/Areas/Buffet/Service/";
+            final String METHOD_NAME = "DeliveryByCode";
+            final String URL = SERVER_ADDRESS+"/areas/buffet/service/webserviceAndroid.asmx?op=DeliveryByCode";
+            final String SOAP_ACTION =SERVER_ADDRESS+ "/Areas/Buffet/Service/GetStep1";
+
+            SoapHelper soapHelper = new SoapHelper(context,NAMESPACE, METHOD_NAME, URL, SOAP_ACTION);
+
+            ArrayList<String> names = new ArrayList<String>();
+            ArrayList<String> values = new ArrayList<String>();
+
+            names.add("date");
+            values.add(date);
+
+            names.add("cardNo");
+            values.add(cardNo);
+
+
+            soapHelper.SendRequestToServer(names,values, new CallBack<JSONObject>() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+
+                        int resultCode = resultCode = result.getInt("ResultCode");
+
+                        switch (resultCode) {
+                            case RESULT_OK: {
+                                String token = result.getString("token");
+                                String name = result.getString("name");
+                                int resturantId = result.getInt("restaurantId");
+                                String resturantName = result.getString("restaurantName");
+                                String deliverPersonel = result.getString("deliverPersonel");
+                                String meal = result.getString("meal");
+                                ArrayList<Meal> meals= Meal.getArrayFromJson(meal);
+                                callback.onSuccess(new LoginInfo(token, name, resturantId, resturantName, deliverPersonel,meals));
+                                break;
+                            }
+                            case RESULT_ERROR: {
+                                callback.onError("نام و یا کلمه عبور اشتباه است");
+                                break;
+                            }
+                            default: {
+                                callback.onError("server response is not valid ");
+                                break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //-----------------------------------------------------------------------------
+    public static void DeliveryByCode(Context context,final String code, final String type, final String deviceId, final CallBack callback) {
+
+        try {
+            SettingHelper setting = new SettingHelper(context);
+            String SERVER_ADDRESS = setting.getOption("serverAddress");
+            if (SERVER_ADDRESS==null)
+                SERVER_ADDRESS="http://192.168.0.11:6061/";
+
+            final String NAMESPACE = SERVER_ADDRESS+"/Areas/Buffet/Service/";
+            final String METHOD_NAME = "DeliveryByCode";
+            final String URL = SERVER_ADDRESS+"/areas/buffet/service/webserviceAndroid.asmx?op=DeliveryByCode";
+            final String SOAP_ACTION =SERVER_ADDRESS+ "/Areas/Buffet/Service/GetStep1";
+
+            SoapHelper soapHelper = new SoapHelper(context,NAMESPACE, METHOD_NAME, URL, SOAP_ACTION);
+
+            ArrayList<String> names = new ArrayList<String>();
+            ArrayList<String> values = new ArrayList<String>();
+
+            names.add("code");
+            values.add(code);
+
+            names.add("type");
+            values.add(type);
+
+            names.add("deviceId");
+            values.add(deviceId);
+
+            soapHelper.SendRequestToServer(names,values, new CallBack<JSONObject>() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+
+                        int resultCode = resultCode = result.getInt("ResultCode");
+
+                        switch (resultCode) {
+                            case RESULT_OK: {
+                                String token = result.getString("token");
+                                String name = result.getString("name");
+                                int resturantId = result.getInt("restaurantId");
+                                String resturantName = result.getString("restaurantName");
+                                String deliverPersonel = result.getString("deliverPersonel");
+                                String meal = result.getString("meal");
+                                ArrayList<Meal> meals= Meal.getArrayFromJson(meal);
+                                callback.onSuccess(new LoginInfo(token, name, resturantId, resturantName, deliverPersonel,meals));
+                                break;
+                            }
+                            case RESULT_ERROR: {
+                                callback.onError("نام و یا کلمه عبور اشتباه است");
+                                break;
+                            }
+                            default: {
+                                callback.onError("server response is not valid ");
+                                break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     //-----------------------------------------------------------------------------
@@ -30,6 +240,8 @@ public class Webservice {
         try {
             SettingHelper setting = new SettingHelper(context);
             String SERVER_ADDRESS = setting.getOption("serverAddress");
+            if (SERVER_ADDRESS==null)
+                SERVER_ADDRESS="http://192.168.0.11:6061/";
 
             final String NAMESPACE = SERVER_ADDRESS+"/Areas/Buffet/Service/";
             final String METHOD_NAME = "GetStep1";
@@ -65,8 +277,8 @@ public class Webservice {
                                 String resturantName = result.getString("restaurantName");
                                 String deliverPersonel = result.getString("deliverPersonel");
                                 String meal = result.getString("meal");
-                                //ArrayList<Meal> meals= Meal.getArrayFromJson(meal);
-                                //callback.onSuccess(new LoginInfo(token, name, resturantId, resturantName, deliverPersonel,meals));
+                                ArrayList<Meal> meals= Meal.getArrayFromJson(meal);
+                                callback.onSuccess(new LoginInfo(token, name, resturantId, resturantName, deliverPersonel,meals));
                                 break;
                             }
                             case RESULT_ERROR: {

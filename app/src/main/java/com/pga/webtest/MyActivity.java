@@ -17,9 +17,9 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
         context = this;
 
-        Webservice.Login(context,"user","pass","deviceId",new CallBack<LoginInfo>() {
+        Webservice.DeliveryByCode(context,"code","type","deviceId",new CallBack() {
             @Override
-            public void onSuccess(LoginInfo result) {
+            public void onSuccess(Object result) {
 
             }
 
