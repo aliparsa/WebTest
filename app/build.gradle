@@ -4,6 +4,16 @@ android {
     compileSdkVersion 19
     buildToolsVersion "20.0.0"
 
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+
     defaultConfig {
         applicationId "com.pga.webtest"
         minSdkVersion 16
@@ -21,4 +31,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
 }
