@@ -1,6 +1,7 @@
 package com.pga.webtest;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,11 +9,30 @@ import android.view.MenuItem;
 
 public class MyActivity extends Activity {
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+        context = this;
+
+        Webservice.Login(context,"user","pass","deviceId",new CallBack<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo result) {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+
     }
+
+
+
 
 
     @Override
