@@ -629,17 +629,7 @@ public class PersianCalendar {
     }
 
 
-    //-------------------------------------------------
-    //--time extension functions
-    private void setTime() {
 
-        Calendar calendar = new GregorianCalendar();
-        Date d = calendar.getTime();
-
-        this.hour = d.getHours();
-        this.minute = d.getMinutes();
-        this.second = d.getSeconds();
-    }
 
     private int irYear; // Year part of a Iranian date
     private int irMonth; // Month part of a Iranian date
@@ -653,6 +643,8 @@ public class PersianCalendar {
     private int leap; // Number of years since the last leap year (0 to 4)
     private int JDN; // Julian Day Number
     private int march; // The march day of Farvardin the first (First day of jaYear)
+
+
     //-------------------------------------
     //---time extension
     private int hour;
@@ -674,14 +666,48 @@ public class PersianCalendar {
     }
 
 
-    public void setTime(int hour, int minute, int i) {
+    //----------------------------------------------
+    /**
+     * sets the specified time to the date
+     *
+     * @param hour  int
+     * @param minute  int
+     * @param second  int
+     * @return void
+     */
+    public void setTime(int hour, int minute, int second) {
         this.hour = hour;
         this.minute = minute;
         this.second = second;
     }
 
     //----------------------------------------------
-    //--Iranian validator
+    /**
+     * sets the current time to the date
+     *
+     * @return void
+     */
+    private void setTime() {
+
+        Calendar calendar = new GregorianCalendar();
+        Date d = calendar.getTime();
+
+        this.hour = d.getHours();
+        this.minute = d.getMinutes();
+        this.second = d.getSeconds();
+    }
+
+    //----------------------------------------------
+    /**
+     * daysInMonth:
+     * counts the days in a month of a year.
+     * the year param is to make sure the 12th month of that
+     * year is a leap year or not.
+     *
+     * @param iranianYear  int
+     * @param iranianMonth int
+     * @return int
+     */
     public static int daysInMonth(int iranianYear, int iranianMonth) {
 
         if (iranianMonth < 1 || iranianMonth > 12)
